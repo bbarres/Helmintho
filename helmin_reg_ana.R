@@ -1,0 +1,74 @@
+###############################################################################
+###############################################################################
+#Analizing Helmintosporiose strain resistance tests from Arvalis field trial
+###############################################################################
+###############################################################################
+
+#loading the libraries
+library(drc)
+library(plotrix)
+
+#set the working directory
+setwd("~/work/Rfichiers/Githuber/Helminto_data")
+
+
+###############################################################################
+#example for Venturia inaequalis resistance to Difenoconazol
+###############################################################################
+
+#load the dataset
+helmdat<-read.table("testCI50.txt",header=T,sep="\t")
+
+#building of the model
+tavelure.m1<-drm((mycel-7.5)~dose,data=testCI50,
+                 fct=LL.4(names=c("Slope","Lower Limit","Upper Limit","ED50")))
+summary(tavelure.m1)
+plot(tavelure.m1)
+tavelure.m2<-drm((mycel-7.5)~dose,data=testCI50,fct=LL.3())
+summary(tavelure.m2)
+plot(tavelure.m2)
+
+#comparison of different model
+mselect(tavelure.m1,list(LL.3(),LN.3(),LN.4()))
+
+#plot with 95% confidence interval
+plot(tavelure.m1,broken=TRUE,type="confidence")
+plot(tavelure.m1,broken=TRUE,add=TRUE)
+#a simplier plot
+plot(tavelure.m1,broken=TRUE)
+
+#evaluating the ED50
+ed50val<-ED(tavelure.m1,50,interval="delta")
+#this is also working for a list of value for ED10, ED90...
+ed_val<-ED(tavelure.m1,c(10,50,90),interval="delta")
+
+#predict the value of the measured trait for the ED50
+predict(tavelure.m1,data.frame(dose=ed50val[1]),se.fit=TRUE)
+#values predicted for the set of dose used in the test
+predict(tavelure.m1, interval = "confidence")
+
+#different possible plot for the results
+plot(tavelure.m1,broken=TRUE)
+abline(v=ed50val[1],col="red",lty=2)
+abline(v=ed50val[3],col="red",lty=3)
+abline(v=ed50val[4],col="red",lty=3)
+
+#still doesn't work
+plot(tavelure.m1,broken=TRUE)
+segments(0,50,ed50val[1],50,lty=2,col="red")
+#the not very good solution (to say the least)
+segments(0.0001,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         0.001,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         lty=2,col="red")
+segments(0.001,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         0.01,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         lty=2,col="red")
+segments(0.01,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         0.1,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         lty=2,col="red")
+segments(0.1,predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         ed50val[1],predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         lty=2,col="red")
+segments(ed50val[1],0,
+         ed50val[1],predict(tavelure.m1,data.frame(dose=ed50val[1])),
+         lty=2,col="red")

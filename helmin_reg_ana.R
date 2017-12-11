@@ -19,7 +19,18 @@ helmdat<-read.table("helmindata.txt",header=T,sep="\t")
 #Analysis for the boscalid
 ###############################################################################
 
+#subsetting the global dataset
 bosc.dat<-helmdat[helmdat$active_substance=="boscalid",]
+
+#checking the quality of sensitive data
+bosc.ref.m1<-drm(perc_croiss~dose,sample_ID,fct=LL.3(),
+                 data=bosc.dat[bosc.dat$site_ID=="ref_sensi",])
+plot(bosc.ref.m1,col="green3")
+
+#some individual never reach an inhibition of 50%, event for the highest 
+#tested concentration. 
+bosc_rez<-as.character(bosc.dat[bosc.dat$dose=="30" & bosc.dat$perc_croiss>50,
+                                 "sample_ID"])
 
 #modeling the dose response curve
 bosc.m1<-drm(perc_croiss~dose,data=bosc.dat[bosc.dat$sample_ID=="17-001-00",],
@@ -27,10 +38,15 @@ bosc.m1<-drm(perc_croiss~dose,data=bosc.dat[bosc.dat$sample_ID=="17-001-00",],
 summary(bosc.m1)
 plot(bosc.m1)
 
+bosc.ref.m1<-drm(perc_croiss~dose,data=bosc.dat[bosc.dat$site_ID=="ref_resis",],
+                 sample_ID,fct=LL.3())
+plot(bosc.ref.m1)
+
 
 bosc.m1.pop1<-drm(perc_croiss~dose,data=bosc.dat[bosc.dat$site_ID=="17-001",],
-                  sample_ID,fct=LL.4())
+                  sample_ID,fct=LL.3())
 plot(bosc.m1.pop1)
+ED(bosc.m1.pop1,50)
 
 bosc.m1.pop1<-drm(perc_croiss~dose,data=bosc.dat[bosc.dat$site_ID=="17-002",],
                   sample_ID,fct=LL.3())
@@ -44,8 +60,8 @@ plot(bosc.m1.pop1)
 bixa.dat<-helmdat[helmdat$active_substance=="bixafen",]
 
 #modeling the dose response curve
-bixa.m1<-drm(perc_croiss~dose,data=bixa.dat[bixa.dat$sample_ID=="17-001-01",],
-             fct=LL.4())
+bixa.m1<-drm(perc_croiss~dose,data=bixa.dat[bixa.dat$site_ID=="17-001",],
+             sample_ID,fct=LL.3())
 summary(bixa.m1)
 plot(bixa.m1)
 

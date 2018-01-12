@@ -176,22 +176,22 @@ EC50_pop<-read.table("EC50_byPOP.txt",header=TRUE)
 
 op<-par(mfrow=c(2,2),mar=c(2,2.5,3,1))
 EC50bosc<-EC50_pop[EC50_pop$SA_ID=="boscalid",]
-plot(EC50bosc$ED50,col=EC50bosc$pop_col,main="Boscalid")
+plot(EC50bosc$ED50,col=as.character(EC50bosc$pop_col),main="Boscalid")
 abline(0.39,0,col="green3",lwd=2)
 abline(3.9,0,col="orange3",lwd=2)
 
 EC50bixa<-EC50_pop[EC50_pop$SA_ID=="bixafen",]
-plot(EC50bixa$ED50,col=EC50bixa$pop_col,main="Bixafen")
+plot(EC50bixa$ED50,col=as.character(EC50bixa$pop_col),main="Bixafen")
 abline(0.08,0,col="green3",lwd=2)
 abline(0.8,0,col="orange3",lwd=2)
 
 EC50fluo<-EC50_pop[EC50_pop$SA_ID=="fluopyram",]
-plot(EC50fluo$ED50,col=EC50fluo$pop_col,main="Fluopyram")
+plot(EC50fluo$ED50,col=as.character(EC50fluo$pop_col),main="Fluopyram")
 abline(0.44,0,col="green3",lwd=2)
 abline(4.4,0,col="orange3",lwd=2)
 
 EC50flux<-EC50_pop[EC50_pop$SA_ID=="fluxapyroxade",]
-plot(EC50flux$ED50,col=EC50flux$pop_col,main="Fluxapyroxade")
+plot(EC50flux$ED50,col=as.character(EC50flux$pop_col),main="Fluxapyroxade")
 abline(0.21,0,col="green3",lwd=2)
 abline(2.1,0,col="orange3",lwd=2)
 

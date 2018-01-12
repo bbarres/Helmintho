@@ -201,19 +201,3 @@ par(op)
 ###############################################################################
 #END
 ###############################################################################
-
-
-#comparison of different model
-mselect(tavelure.m1,list(LL.3(),LN.3(),LN.4()))
-
-#plot with 95% confidence interval
-plot(tavelure.m1,broken=TRUE,type="confidence")
-plot(tavelure.m1,broken=TRUE,add=TRUE)
-#a simplier plot
-plot(tavelure.m1,broken=TRUE)
-
-#evaluating the ED50
-ed50val<-ED(tavelure.m1,50,interval="delta")
-#this is also working for a list of value for ED10, ED90...
-ed_val<-ED(tavelure.m1,c(10,50,90),interval="delta")
-

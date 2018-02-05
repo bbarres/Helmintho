@@ -42,11 +42,15 @@ for (i in 1: dim(table(bosc.dat$sample_ID))[1]) {
 }
 
 REZbos$ED50[REZbos$ED50>30]<-30
-plot(REZbos$ED50[order(REZbos$ED50)],main="Boscalid")
-abline(0.39,0,col="green3",lwd=2)
-abline(3.9,0,col="orange3",lwd=2)
+plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="Souches ID",
+     ylab="FR",las=1)
+abline(0.39/0.39,0,col="green3",lwd=2)
+abline(3.9/0.39,0,col="orange3",lwd=2)
 write.table(REZbos,file="REZbos.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
+hist(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="FR Classes",
+     las=1)
+abline(v=10,col="red",lwd=3)
 
 ###############################################################################
 #Analysis for the bixafen

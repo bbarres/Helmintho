@@ -174,29 +174,36 @@ abline(v=10,col="red",lwd=3)
 
 #export to pdf 4.5 x 9 inches
 
+
 ###############################################################################
-#combined plot
+#combined plot, figure for CIMA article
 ###############################################################################
 
 op<-par(mfrow=c(2,2))
 
-plot(REZbos$ED50[order(REZbos$ED50)],main="Boscalid")
-abline(0.39,0,col="green3",lwd=2)
-abline(3.9,0,col="orange3",lwd=2)
+plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="boscalide",cex
+     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
+abline(0.39/0.39,0,col="green4",lwd=2)
+abline(3.9/0.39,0,col="red",lwd=2)
 
-plot(REZbix$ED50[order(REZbix$ED50)],main="Bixafen")
-abline(0.08,0,col="green3",lwd=2)
-abline(0.8,0,col="orange3",lwd=2)
+plot(REZbix$ED50[order(REZbix$ED50)]/0.08,main="bixafène",
+     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
+abline(0.08/0.08,0,col="green4",lwd=2)
+abline(0.8/0.08,0,col="red",lwd=2)
 
-plot(REZflo$ED50[order(REZflo$ED50)],main="Fluopyram")
-abline(0.44,0,col="green3",lwd=2)
-abline(4.4,0,col="orange3",lwd=2)
+plot(REZflo$ED50[order(REZflo$ED50)]/0.44,main="fluopyram",
+     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
+abline(0.44/0.44,0,col="green4",lwd=2)
+abline(4.4/0.44,0,col="red",lwd=2)
 
-plot(REZflx$ED50[order(REZflx$ED50)],main="Fluxapyroxade")
-abline(0.21,0,col="green3",lwd=2)
-abline(2.1,0,col="orange3",lwd=2)
+plot(REZflx$ED50[order(REZflx$ED50)]/0.21,main="fluxapyroxade",
+     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
+abline(0.21/0.21,0,col="green4",lwd=2)
+abline(2.1/0.21,0,col="red",lwd=2)
 
 par(op)
+
+#export to pdf 10 x 8 inches
 
 
 ###############################################################################

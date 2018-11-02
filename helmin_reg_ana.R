@@ -9,11 +9,8 @@ library(drc)
 library(plotrix)
 library(gdata)
 
-#set the working directory
-setwd("~/work/Rfichiers/Githuber/Helmintho_data")
-
 #load the global dataset
-helmdat<-read.table("helmindata.txt",header=T,sep="\t")
+helmdat<-read.table("data/helmindata.txt",header=T,sep="\t")
 
 
 ###############################################################################
@@ -47,7 +44,7 @@ plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="Souches ID",
 abline(0.39/0.39,0,col="green4",lwd=2)
 abline(3.9/0.39,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZbos,file="REZbos.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZbos,file="output/REZbos.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="FR Classes",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
@@ -86,7 +83,7 @@ plot(REZbix$ED50[order(REZbix$ED50)]/0.08,main="Bixafen",xlab="Souches ID",
 abline(0.08/0.08,0,col="green4",lwd=2)
 abline(0.8/0.08,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZbix,file="REZbix.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZbix,file="output/REZbix.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZbix$ED50[order(REZbix$ED50)]/0.08,main="Bixafen",xlab="FR Classes",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
@@ -125,7 +122,7 @@ plot(REZflo$ED50[order(REZflo$ED50)]/0.44,main="Fluopyram",xlab="Souches ID",
 abline(0.44/0.44,0,col="green4",lwd=2)
 abline(4.4/0.44,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZflo,file="REZflo.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZflo,file="output/REZflo.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZflo$ED50[order(REZflo$ED50)]/0.44,main="Fluopyram",xlab="FR Classes",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
@@ -165,7 +162,7 @@ plot(REZflx$ED50[order(REZflx$ED50)]/0.21,main="Fluxapyroxade",xlab="Souches ID"
 abline(0.21/0.21,0,col="green4",lwd=2)
 abline(2.1/0.21,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZflx,file="REZflx.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZflx,file="output/REZflx.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZflx$ED50[order(REZflx$ED50)]/0.21,main="Fluxapyroxade",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
@@ -181,7 +178,7 @@ abline(v=10,col="red",lwd=3)
 
 op<-par(mfrow=c(2,2))
 
-plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="boscalide",cex
+plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="boscalide",
      xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
 abline(0.39/0.39,0,col="green4",lwd=2)
 abline(3.9/0.39,0,col="red",lwd=2)
@@ -210,7 +207,7 @@ par(op)
 #plot with individual group by pop
 ###############################################################################
 
-EC50_pop<-read.table("EC50_byPOP.txt",header=TRUE)
+EC50_pop<-read.table("data/EC50_byPOP.txt",header=TRUE)
 
 op<-par(mfrow=c(2,2),mar=c(2,2.5,3,1))
 EC50bosc<-EC50_pop[EC50_pop$SA_ID=="boscalid",]

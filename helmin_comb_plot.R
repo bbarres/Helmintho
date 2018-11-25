@@ -5,7 +5,9 @@
 ###############################################################################
 
 #loading the libraries
-library(dplyr)
+library(data.table)
+library(psych)
+
 #loading the dataset of the combined results of the 4 SDHI resistance test
 EC50_pop<-read.table("data/EC50_byPOP.txt",header=TRUE)
 
@@ -65,6 +67,16 @@ abline(0.21/0.21,0,col="green4",lwd=2)
 abline(2.1/0.21,0,col="red",lwd=2)
 
 par(op)
+
+
+###############################################################################
+#covariation between the different FR for the different SDHI
+###############################################################################
+
+EC50_comb<-dcast(EC50_pop,sample_ID~SA_ID,value.var=c("ED50"),fun=mean)
+plot(EC50_comb$boscalid[order(EC50_comb$boscalid)]~EC50_comb$bixafen[order(EC50_comb$boscalid)])
+pairs(EC50_comb[order(EC50_comb$boscalid),-c(1)])
+pairs.panels(EC50_comb[,-c(1)],cex=0.3)
 
 
 ###############################################################################

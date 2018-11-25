@@ -74,8 +74,11 @@ par(op)
 ###############################################################################
 
 EC50_comb<-dcast(EC50_pop,sample_ID~SA_ID,value.var=c("ED50"),fun=mean)
-plot(EC50_comb$boscalid[order(EC50_comb$boscalid)]~EC50_comb$bixafen[order(EC50_comb$boscalid)])
+plot(EC50_comb$boscalid[order(EC50_comb$boscalid)]~
+       EC50_comb$bixafen[order(EC50_comb$boscalid)])
 pairs(EC50_comb[order(EC50_comb$boscalid),-c(1)])
+pairs(EC50_comb[order(EC50_comb$boscalid),-c(1)],upper.panel=NULL,
+      diag.panel=NULL,log=TRUE)
 pairs.panels(EC50_comb[,-c(1)],cex=0.3)
 
 

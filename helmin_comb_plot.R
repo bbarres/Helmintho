@@ -7,35 +7,47 @@
 #loading the libraries
 library(data.table)
 library(psych)
+library(RColorBrewer)
+library(scales)
 
 #loading the dataset of the combined results of the 4 SDHI resistance test
 EC50_pop<-read.table("data/EC50_byPOP.txt",header=TRUE)
-
+colovec<-brewer.pal(4,"Set1")
 
 ###############################################################################
 #plot with individual group by pop
 ###############################################################################
 
-op<-par(mfrow=c(2,2),mar=c(2,2.5,3,1))
+op<-par(mfrow=c(2,2),mar=c(6.1,5.1,3,1))
+
 EC50bosc<-EC50_pop[EC50_pop$SA_ID=="boscalid",]
-plot(EC50bosc$ED50,col=as.character(EC50bosc$pop_col),main="Boscalid")
-abline(0.39,0,col="green3",lwd=2)
-abline(3.9,0,col="orange3",lwd=2)
+plot(EC50bosc$ED50/0.39,col=alpha(colovec[as.numeric(EC50bosc$pop_col)],0.6),
+     main="boscalide",xlab="",ylab="FR",las=1, 
+     cex=3,cex.lab=3,cex.axis=2,cex.main=3,pch=19)
+abline(0.39/0.39,0,col="green4",lwd=2)
+abline(3.9/0.39,0,col="red",lwd=2)
+box(lwd=3,bty="o")
 
 EC50bixa<-EC50_pop[EC50_pop$SA_ID=="bixafen",]
-plot(EC50bixa$ED50,col=as.character(EC50bixa$pop_col),main="Bixafen")
-abline(0.08,0,col="green3",lwd=2)
-abline(0.8,0,col="orange3",lwd=2)
+plot(EC50bixa$ED50/0.08,col=alpha(colovec[as.numeric(EC50bixa$pop_col)],0.7),
+     main="bixafène",xlab="",ylab="",las=1,
+     cex=3,cex.lab=3,cex.axis=2,cex.main=3,pch=19)
+abline(0.08/0.08,0,col="green4",lwd=2)
+abline(0.8/0.08,0,col="red",lwd=2)
 
 EC50fluo<-EC50_pop[EC50_pop$SA_ID=="fluopyram",]
-plot(EC50fluo$ED50,col=as.character(EC50fluo$pop_col),main="Fluopyram")
-abline(0.44,0,col="green3",lwd=2)
-abline(4.4,0,col="orange3",lwd=2)
+plot(EC50fluo$ED50/0.44,col=alpha(colovec[as.numeric(EC50fluo$pop_col)],0.7),
+     main="fluopyram",xlab="Identifiant souche",ylab="FR",las=1,
+     cex=3,cex.lab=3,cex.axis=2,cex.main=3,pch=19)
+abline(0.44/0.44,0,col="green4",lwd=2)
+abline(4.4/0.44,0,col="red",lwd=2)
 
 EC50flux<-EC50_pop[EC50_pop$SA_ID=="fluxapyroxade",]
-plot(EC50flux$ED50,col=as.character(EC50flux$pop_col),main="Fluxapyroxade")
-abline(0.21,0,col="green3",lwd=2)
-abline(2.1,0,col="orange3",lwd=2)
+plot(EC50flux$ED50/0.21,col=alpha(colovec[as.numeric(EC50flux$pop_col)],0.7),
+     main="fluxapyroxade",xlab="Identifiant souche",ylab="",las=1,
+     cex=3,cex.lab=3,cex.axis=2,cex.main=3,pch=19)
+abline(0.21/0.21,0,col="green4",lwd=2)
+abline(2.1/0.21,0,col="red",lwd=2)
 
 par(op)
 

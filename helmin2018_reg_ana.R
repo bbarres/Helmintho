@@ -39,16 +39,19 @@ for (i in 1: dim(table(bosc.dat$sample_ID))[1]) {
 }
 
 REZbos$ED50[REZbos$ED50>30]<-30
-plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="Souches ID",
+CI50sens<-mean(REZbos$ED50[order(REZbos$ED50)][1:80])
+REZbos<-merge(REZbos,helmdat[helmdat$active_substance=="boscalid" & 
+                             helmdat$dose==0,],by="sample_ID")
+plot(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="Souches ID",
      ylab="FR",las=1)
-abline(0.39/0.39,0,col="green4",lwd=2)
-abline(3.9/0.39,0,col="red",lwd=2)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZbos,file="output/REZbos.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZbos,file="output/REZbos18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
-hist(REZbos$ED50[order(REZbos$ED50)]/0.39,main="Boscalid",xlab="FR Classes",
-     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
-     las=1,col=heat.colors(8)[8:1],ylim=c(0,200))
+hist(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="FR Classes",
+     breaks=c(0,5,10,15,20,25,30,35,40,45,50),
+     las=1,col=heat.colors(10)[10:1],ylim=c(0,110))
 abline(v=10,col="red",lwd=3)
 #export to pdf 4.5 x 9 inches
 
@@ -78,16 +81,17 @@ for (i in 1: dim(table(bixa.dat$sample_ID))[1]) {
 }
 
 REZbix$ED50[REZbix$ED50>30]<-30
-plot(REZbix$ED50[order(REZbix$ED50)]/0.08,main="Bixafen",xlab="Souches ID",
+CI50sens<-mean(REZbix$ED50[order(REZbix$ED50)][1:80])
+plot(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="Souches ID",
      ylab="FR",las=1)
-abline(0.08/0.08,0,col="green4",lwd=2)
-abline(0.8/0.08,0,col="red",lwd=2)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZbix,file="output/REZbix.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZbix,file="output/REZbix18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
-hist(REZbix$ED50[order(REZbix$ED50)]/0.08,main="Bixafen",xlab="FR Classes",
-     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
-     las=1,col=heat.colors(8)[8:1],ylim=c(0,450))
+hist(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="FR Classes",
+     breaks=c(0,10,20,30,40,50,60,70,80,90,100,140,150,200,250,260,280,290),
+     las=1,col=heat.colors(17)[17:1],ylim=c(0,200),freq=TRUE)
 abline(v=10,col="red",lwd=3)
 #export to pdf 4.5 x 9 inches
 
@@ -117,16 +121,17 @@ for (i in 1: dim(table(fluo.dat$sample_ID))[1]) {
   REZflo<-rbind(REZflo,tempx)
 }
 
-plot(REZflo$ED50[order(REZflo$ED50)]/0.44,main="Fluopyram",xlab="Souches ID",
+CI50sens<-mean(REZflo$ED50[order(REZflo$ED50)][1:80])
+plot(REZflo$ED50[order(REZflo$ED50)]/CI50sens,main="Fluopyram",xlab="Souches ID",
      ylab="FR",las=1)
-abline(0.44/0.44,0,col="green4",lwd=2)
-abline(4.4/0.44,0,col="red",lwd=2)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZflo,file="output/REZflo.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZflo,file="output/REZflo18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
-hist(REZflo$ED50[order(REZflo$ED50)]/0.44,main="Fluopyram",xlab="FR Classes",
-     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
-     las=1,col=heat.colors(8)[8:1],ylim=c(0,450))
+hist(REZflo$ED50[order(REZflo$ED50)]/CI50sens,main="Fluopyram",xlab="FR Classes",
+     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,190,200),freq=TRUE,
+     las=1,col=heat.colors(16)[16:1],ylim=c(0,200))
 abline(v=10,col="red",lwd=3)
 
 #export to pdf 4.5 x 9 inches
@@ -157,16 +162,17 @@ for (i in 1: dim(table(flux.dat$sample_ID))[1]) {
 }
 
 REZflx$ED50[REZflx$ED50>30]<-30
-plot(REZflx$ED50[order(REZflx$ED50)]/0.21,main="Fluxapyroxade",xlab="Souches ID",
+CI50sens<-mean(REZflx$ED50[order(REZflx$ED50)][1:80])
+plot(REZflx$ED50[order(REZflx$ED50)]/CI50sens,main="Fluxapyroxade",xlab="Souches ID",
      ylab="FR",las=1)
-abline(0.21/0.21,0,col="green4",lwd=2)
-abline(2.1/0.21,0,col="red",lwd=2)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 #export to pdf 10 x 6 inches
-write.table(REZflx,file="output/REZflx.txt",quote=FALSE,sep="\t",row.names=FALSE)
+write.table(REZflx,file="output/REZflx18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
-hist(REZflx$ED50[order(REZflx$ED50)]/0.21,main="Fluxapyroxade",
-     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150),
-     xlab="FR Classes",las=1,col=heat.colors(8)[c(8:1,rep(1,7))],ylim=c(0,450))
+hist(REZflx$ED50[order(REZflx$ED50)]/CI50sens,main="Fluxapyroxade",
+     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170),
+     xlab="FR Classes",las=1,col=heat.colors(17)[17:1],ylim=c(0,170))
 abline(v=10,col="red",lwd=3)
 
 #export to pdf 4.5 x 9 inches

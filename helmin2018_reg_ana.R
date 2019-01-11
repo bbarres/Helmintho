@@ -42,18 +42,30 @@ REZbos$ED50[REZbos$ED50>30]<-30
 CI50sens<-mean(REZbos$ED50[order(REZbos$ED50)][1:80])
 REZbos<-merge(REZbos,helmdat[helmdat$active_substance=="boscalid" & 
                              helmdat$dose==0,],by="sample_ID")
+REZbos<-cbind(REZbos,"FR"=REZbos$ED50/CI50sens)
+
+op<-par(mfrow=c(2,2))
 plot(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
-#export to pdf 10 x 6 inches
-write.table(REZbos,file="output/REZbos18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="FR Classes",
      breaks=c(0,5,10,15,20,25,30,35,40,45,50),
      las=1,col=heat.colors(10)[10:1],ylim=c(0,110))
 abline(v=10,col="red",lwd=3)
-#export to pdf 4.5 x 9 inches
+
+plot(REZbos$ED50[order(REZbos$site_ID, REZbos$ED50)]/CI50sens,
+     main="Boscalid",xlab="Souches ID",ylab="FR",las=1)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
+par(op)
+#export to pdf 8 x 9 inches
+
+#export the results file
+write.table(REZbos,file="output/REZbos18.txt",quote=FALSE,sep="\t",
+            row.names=FALSE)
+
 
 ###############################################################################
 #Analysis for the bixafen
@@ -82,18 +94,31 @@ for (i in 1: dim(table(bixa.dat$sample_ID))[1]) {
 
 REZbix$ED50[REZbix$ED50>30]<-30
 CI50sens<-mean(REZbix$ED50[order(REZbix$ED50)][1:80])
+REZbix<-merge(REZbix,helmdat[helmdat$active_substance=="bixafene" & 
+                               helmdat$dose==0,],by="sample_ID")
+REZbix<-cbind(REZbix,"FR"=REZbix$ED50/CI50sens)
+
+op<-par(mfrow=c(2,2))
 plot(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
-#export to pdf 10 x 6 inches
-write.table(REZbix,file="output/REZbix18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="FR Classes",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,140,150,200,250,260,280,290),
      las=1,col=heat.colors(17)[17:1],ylim=c(0,200),freq=TRUE)
 abline(v=10,col="red",lwd=3)
-#export to pdf 4.5 x 9 inches
+
+plot(REZbix$ED50[order(REZbix$site_ID,REZbix$ED50)]/CI50sens,
+     main="Bixafen",xlab="Souches ID",ylab="FR",las=1)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
+par(op)
+#export to pdf 10 x 8 inches
+
+#export the results file
+write.table(REZbix,file="output/REZbix18.txt",quote=FALSE,sep="\t",
+            row.names=FALSE)
 
 
 ###############################################################################
@@ -122,19 +147,33 @@ for (i in 1: dim(table(fluo.dat$sample_ID))[1]) {
 }
 
 CI50sens<-mean(REZflo$ED50[order(REZflo$ED50)][1:80])
-plot(REZflo$ED50[order(REZflo$ED50)]/CI50sens,main="Fluopyram",xlab="Souches ID",
-     ylab="FR",las=1)
+REZflo<-merge(REZflo,helmdat[helmdat$active_substance=="fluopyram" & 
+                               helmdat$dose==0,],by="sample_ID")
+REZflo<-cbind(REZflo,"FR"=REZflo$ED50/CI50sens)
+
+op<-par(mfrow=c(2,2))
+plot(REZflo$ED50[order(REZflo$ED50)]/CI50sens,main="Fluopyram",
+     xlab="Souches ID",ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
-#export to pdf 10 x 6 inches
-write.table(REZflo,file="output/REZflo18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
-hist(REZflo$ED50[order(REZflo$ED50)]/CI50sens,main="Fluopyram",xlab="FR Classes",
-     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,190,200),freq=TRUE,
-     las=1,col=heat.colors(16)[16:1],ylim=c(0,200))
+hist(REZflo$ED50[order(REZflo$ED50)]/CI50sens,
+     main="Fluopyram",xlab="FR Classes",
+     breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,190,200),
+     freq=TRUE,las=1,col=heat.colors(16)[16:1],ylim=c(0,200))
 abline(v=10,col="red",lwd=3)
 
-#export to pdf 4.5 x 9 inches
+plot(REZflo$ED50[order(REZflo$site_ID,REZflo$ED50)]/CI50sens,
+     main="Fluopyram",xlab="Souches ID",ylab="FR",las=1)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
+par(op)
+#export to pdf 10 x 8 inches
+
+#export the results file
+write.table(REZflo,file="output/REZflo18.txt",quote=FALSE,sep="\t",
+            row.names=FALSE)
+
 
 ###############################################################################
 #Analysis for the fluxapyroxad
@@ -163,80 +202,31 @@ for (i in 1: dim(table(flux.dat$sample_ID))[1]) {
 
 REZflx$ED50[REZflx$ED50>30]<-30
 CI50sens<-mean(REZflx$ED50[order(REZflx$ED50)][1:80])
+REZflx<-merge(REZflx,helmdat[helmdat$active_substance=="fluxapyroxad" & 
+                               helmdat$dose==0,],by="sample_ID")
+REZflx<-cbind(REZflx,"FR"=REZflx$ED50/CI50sens)
+
+op<-par(mfrow=c(2,2))
 plot(REZflx$ED50[order(REZflx$ED50)]/CI50sens,main="Fluxapyroxade",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
-#export to pdf 10 x 6 inches
-write.table(REZflx,file="output/REZflx18.txt",quote=FALSE,sep="\t",row.names=FALSE)
 
 hist(REZflx$ED50[order(REZflx$ED50)]/CI50sens,main="Fluxapyroxade",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170),
      xlab="FR Classes",las=1,col=heat.colors(17)[17:1],ylim=c(0,170))
 abline(v=10,col="red",lwd=3)
 
-#export to pdf 4.5 x 9 inches
-
-
-###############################################################################
-#combined plot, figure for CIMA article
-###############################################################################
-
-op<-par(mfrow=c(2,2))
-
-plot(REZbos$ED50[order(REZbos$ED50)]/0.39,main="boscalide",
-     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
-abline(0.39/0.39,0,col="green4",lwd=2)
-abline(3.9/0.39,0,col="red",lwd=2)
-
-plot(REZbix$ED50[order(REZbix$ED50)]/0.08,main="bixafène",
-     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
-abline(0.08/0.08,0,col="green4",lwd=2)
-abline(0.8/0.08,0,col="red",lwd=2)
-
-plot(REZflo$ED50[order(REZflo$ED50)]/0.44,main="fluopyram",
-     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
-abline(0.44/0.44,0,col="green4",lwd=2)
-abline(4.4/0.44,0,col="red",lwd=2)
-
-plot(REZflx$ED50[order(REZflx$ED50)]/0.21,main="fluxapyroxade",
-     xlab="Identifiant souche", ylab="Facteur de résistance",las=1)
-abline(0.21/0.21,0,col="green4",lwd=2)
-abline(2.1/0.21,0,col="red",lwd=2)
-
+plot(REZflx$ED50[order(REZflx$site_ID,REZflx$ED50)]/CI50sens,
+     main="Fluxapyroxade",xlab="Souches ID",ylab="FR",las=1)
+abline(CI50sens/CI50sens,0,col="green4",lwd=2)
+abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 par(op)
-
 #export to pdf 10 x 8 inches
 
-
-###############################################################################
-#plot with individual group by pop
-###############################################################################
-
-EC50_pop<-read.table("data/EC50_byPOP.txt",header=TRUE)
-
-op<-par(mfrow=c(2,2),mar=c(2,2.5,3,1))
-EC50bosc<-EC50_pop[EC50_pop$SA_ID=="boscalid",]
-plot(EC50bosc$ED50,col=as.character(EC50bosc$pop_col),main="Boscalid")
-abline(0.39,0,col="green3",lwd=2)
-abline(3.9,0,col="orange3",lwd=2)
-
-EC50bixa<-EC50_pop[EC50_pop$SA_ID=="bixafen",]
-plot(EC50bixa$ED50,col=as.character(EC50bixa$pop_col),main="Bixafen")
-abline(0.08,0,col="green3",lwd=2)
-abline(0.8,0,col="orange3",lwd=2)
-
-EC50fluo<-EC50_pop[EC50_pop$SA_ID=="fluopyram",]
-plot(EC50fluo$ED50,col=as.character(EC50fluo$pop_col),main="Fluopyram")
-abline(0.44,0,col="green3",lwd=2)
-abline(4.4,0,col="orange3",lwd=2)
-
-EC50flux<-EC50_pop[EC50_pop$SA_ID=="fluxapyroxade",]
-plot(EC50flux$ED50,col=as.character(EC50flux$pop_col),main="Fluxapyroxade")
-abline(0.21,0,col="green3",lwd=2)
-abline(2.1,0,col="orange3",lwd=2)
-
-par(op)
+#export the results file
+write.table(REZflx,file="output/REZflx18.txt",quote=FALSE,sep="\t",
+            row.names=FALSE)
 
 
 ###############################################################################

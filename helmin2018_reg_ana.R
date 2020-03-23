@@ -1,8 +1,8 @@
-###############################################################################
-###############################################################################
+##############################################################################/
+##############################################################################/
 #Analizing Helmintosporiose strain resistance tests from Arvalis field trial
-###############################################################################
-###############################################################################
+##############################################################################/
+##############################################################################/
 
 #loading the libraries
 library(drc)
@@ -13,9 +13,9 @@ library(gdata)
 helmdat<-read.table("data/helmindata2018.txt",header=T,sep="\t")
 
 
-###############################################################################
-#Analysis for the boscalid
-###############################################################################
+##############################################################################/
+#Analysis for the boscalid####
+##############################################################################/
 
 #subsetting the global dataset
 bosc.dat<-helmdat[helmdat$active_substance=="boscalid",]
@@ -30,7 +30,8 @@ bosc.dat<-bosc.dat[!(bosc.dat$sample_ID %in% bosc_rez),]
 bosc.dat<-drop.levels(bosc.dat)
 for (i in 1: dim(table(bosc.dat$sample_ID))[1]) {
   temp.m1<-drm(perc_croiss~dose,
-               data=bosc.dat[bosc.dat$sample_ID==names(table(bosc.dat$sample_ID))[i],],
+               data=bosc.dat[bosc.dat$sample_ID==
+                               names(table(bosc.dat$sample_ID))[i],],
                fct=LL.4())
   temp<-ED(temp.m1,50,type="absolute")
   tempx<-data.frame("sample_ID"=names(table(bosc.dat$sample_ID))[i],
@@ -45,12 +46,14 @@ REZbos<-merge(REZbos,helmdat[helmdat$active_substance=="boscalid" &
 REZbos<-cbind(REZbos,"FR"=REZbos$ED50/CI50sens)
 
 op<-par(mfrow=c(2,2))
-plot(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="Souches ID",
+plot(REZbos$ED50[order(REZbos$ED50)]/CI50sens,
+     main="Boscalid",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 
-hist(REZbos$ED50[order(REZbos$ED50)]/CI50sens,main="Boscalid",xlab="FR Classes",
+hist(REZbos$ED50[order(REZbos$ED50)]/CI50sens,
+     main="Boscalid",xlab="FR Classes",
      breaks=c(0,5,10,15,20,25,30,35,40,45,50),
      las=1,col=heat.colors(10)[10:1],ylim=c(0,110))
 abline(v=10,col="red",lwd=3)
@@ -67,9 +70,9 @@ write.table(REZbos,file="output/REZbos18.txt",quote=FALSE,sep="\t",
             row.names=FALSE)
 
 
-###############################################################################
-#Analysis for the bixafen
-###############################################################################
+##############################################################################/
+#Analysis for the bixafen####
+##############################################################################/
 
 #subsetting the global dataset
 bixa.dat<-helmdat[helmdat$active_substance=="bixafene",]
@@ -84,7 +87,8 @@ bixa.dat<-bixa.dat[!(bixa.dat$sample_ID %in% bixa_rez),]
 bixa.dat<-drop.levels(bixa.dat)
 for (i in 1: dim(table(bixa.dat$sample_ID))[1]) {
   temp.m1<-drm(perc_croiss~dose,
-               data=bixa.dat[bixa.dat$sample_ID==names(table(bixa.dat$sample_ID))[i],],
+               data=bixa.dat[bixa.dat$sample_ID==
+                               names(table(bixa.dat$sample_ID))[i],],
                fct=LL.4())
   temp<-ED(temp.m1,50,type="absolute")
   tempx<-data.frame("sample_ID"=names(table(bixa.dat$sample_ID))[i],
@@ -99,12 +103,14 @@ REZbix<-merge(REZbix,helmdat[helmdat$active_substance=="bixafene" &
 REZbix<-cbind(REZbix,"FR"=REZbix$ED50/CI50sens)
 
 op<-par(mfrow=c(2,2))
-plot(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="Souches ID",
+plot(REZbix$ED50[order(REZbix$ED50)]/CI50sens,
+     main="Bixafen",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
 
-hist(REZbix$ED50[order(REZbix$ED50)]/CI50sens,main="Bixafen",xlab="FR Classes",
+hist(REZbix$ED50[order(REZbix$ED50)]/CI50sens,
+     main="Bixafen",xlab="FR Classes",
      breaks=c(0,10,20,30,40,50,60,70,80,90,100,140,150,200,250,260,280,290),
      las=1,col=heat.colors(17)[17:1],ylim=c(0,200),freq=TRUE)
 abline(v=10,col="red",lwd=3)
@@ -121,9 +127,9 @@ write.table(REZbix,file="output/REZbix18.txt",quote=FALSE,sep="\t",
             row.names=FALSE)
 
 
-###############################################################################
-#Analysis for the fluopyram
-###############################################################################
+##############################################################################/
+#Analysis for the fluopyram####
+##############################################################################/
 
 #subsetting the global dataset
 fluo.dat<-helmdat[helmdat$active_substance=="fluopyram",]
@@ -138,7 +144,8 @@ fluo.dat<-fluo.dat[!(fluo.dat$sample_ID %in% fluo_rez),]
 fluo.dat<-drop.levels(fluo.dat)
 for (i in 1: dim(table(fluo.dat$sample_ID))[1]) {
   temp.m1<-drm(perc_croiss~dose,
-               data=fluo.dat[fluo.dat$sample_ID==names(table(fluo.dat$sample_ID))[i],],
+               data=fluo.dat[fluo.dat$sample_ID==
+                               names(table(fluo.dat$sample_ID))[i],],
                fct=LL.4())
   temp<-ED(temp.m1,50,type="absolute")
   tempx<-data.frame("sample_ID"=names(table(fluo.dat$sample_ID))[i],
@@ -175,9 +182,9 @@ write.table(REZflo,file="output/REZflo18.txt",quote=FALSE,sep="\t",
             row.names=FALSE)
 
 
-###############################################################################
-#Analysis for the fluxapyroxad
-###############################################################################
+##############################################################################/
+#Analysis for the fluxapyroxad####
+##############################################################################/
 
 #subsetting the global dataset
 flux.dat<-helmdat[helmdat$active_substance=="fluxapyroxad",]
@@ -192,7 +199,8 @@ flux.dat<-flux.dat[!(flux.dat$sample_ID %in% flux_rez),]
 flux.dat<-drop.levels(flux.dat)
 for (i in 1: dim(table(flux.dat$sample_ID))[1]) {
   temp.m1<-drm(perc_croiss~dose,
-               data=flux.dat[flux.dat$sample_ID==names(table(flux.dat$sample_ID))[i],],
+               data=flux.dat[flux.dat$sample_ID==
+                               names(table(flux.dat$sample_ID))[i],],
                fct=LL.4())
   temp<-ED(temp.m1,50,type="absolute")
   tempx<-data.frame("sample_ID"=names(table(flux.dat$sample_ID))[i],
@@ -207,7 +215,8 @@ REZflx<-merge(REZflx,helmdat[helmdat$active_substance=="fluxapyroxad" &
 REZflx<-cbind(REZflx,"FR"=REZflx$ED50/CI50sens)
 
 op<-par(mfrow=c(2,2))
-plot(REZflx$ED50[order(REZflx$ED50)]/CI50sens,main="Fluxapyroxade",xlab="Souches ID",
+plot(REZflx$ED50[order(REZflx$ED50)]/CI50sens,
+     main="Fluxapyroxade",xlab="Souches ID",
      ylab="FR",las=1)
 abline(CI50sens/CI50sens,0,col="green4",lwd=2)
 abline((CI50sens*10)/CI50sens,0,col="red",lwd=2)
@@ -229,6 +238,6 @@ write.table(REZflx,file="output/REZflx18.txt",quote=FALSE,sep="\t",
             row.names=FALSE)
 
 
-###############################################################################
+##############################################################################/
 #END
-###############################################################################
+##############################################################################/

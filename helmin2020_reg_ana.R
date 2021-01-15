@@ -10,6 +10,8 @@ library(plotrix)
 library(gdata)
 library(tidyr)
 library(RColorBrewer)
+library(ade4)
+library(factoextra)
 
 #load the global dataset
 datamyc<-read.table("data/helmindata2020.txt",header=T,sep=";",
@@ -90,7 +92,7 @@ legend(300,47,levels(CompRez$Subs_Act),fill=cooloor,bty="n")
 par(op)
 dev.off()
 
-#histogramme by samples
+#histograms by samples
 samplelist<-as.character(names(table(CompRez$sample_ID)))
 pdf(file="output/histo_byInd_ASA.pdf",width=9,height=20)
 op<-par(mfrow=c(8,5))
@@ -111,7 +113,7 @@ dev.off()
 #correlation between ED50 estimated for different active substances####
 ##############################################################################/
 
-temp<-CompRez[,c(1,2,4)]
+temp<-CompRez[,c(1,2,3)]
 temp<-spread(temp,Subs_Act,ED50)
 
 #a function to compute the absolute correlation between pairs of variables
@@ -126,44 +128,37 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
-pairs(temp[,c(2:13)],las=1,main="Correlation between ActSubst",
+pairs(temp[,c(2:5)],las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
-pairs(log(temp[,c(2:13)]),las=1,main="Correlation between log(ActSubst)",
+pairs(log(temp[,c(2:5)]),las=1,main="Correlation between log(ActSubst)",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 #export to pdf 11 x 11 inches
-
-#just for the difenoconazole and tetraconazole
-pairs(log(temp[,c(3,12)]),las=1,main="Correlation between log(ActSubst)",
-      lower.panel=panel.smooth, upper.panel=panel.cor)
 
 
 ##############################################################################/
 #Analyzing the multisensitivity profil of the strains####
 ##############################################################################/
 
-#Clusterization based on scoring of 10 SA
+#Clusterization based on scoring of 4 SA
 row.names(temp)<-temp$sample_ID
 
-#PCA for the scoring on 10 SA
+#PCA for the scoring on 4 SA
 truc<-dudi.pca(temp[,-c(1)],
                scannf=FALSE,nf=3)
 scatter(truc)
 #determining the optimal number of clusters
-fviz_nbclust(temp[,c(2:13)],kmeans,method="gap_stat")
-clust<-kmeans(temp[,c(2:13)],5)
-fviz_cluster(clust,data=temp[,c(2:13)])
+fviz_nbclust(temp[,c(2:5)],kmeans,method="gap_stat")
+clust<-kmeans(temp[,c(2:5)],3)
+fviz_cluster(clust,data=temp[,c(2:5)])
 plot(truc$li[,c(1,2)],col=brewer.pal(5,"Dark2")[clust$cluster],
      pch=19,cex=2)
 
-#we remove FENTINE HYDROXYDE and TOLNAFTATE because it is of no 
-#interest here as well as individuals 39 to 44 that have too many 
-#missing values
-hclu<-hclust(dist(scale(temp[-c(39:44),c(2:4,6:12)]),
+hclu<-hclust(dist(scale(temp[,c(2:5)]),
                   method="euclidean"),
              method="ward.D2")
 plot(hclu)
-fviz_dend(hclu,k=5,cex=0.5,rect=TRUE,
+fviz_dend(hclu,k=3,cex=0.5,rect=TRUE,
           k_colors=brewer.pal(5,"Dark2"))
 #export to pdf 9 x 6 inches
 
@@ -173,51 +168,25 @@ fviz_dend(hclu,k=5,cex=0.5,rect=TRUE,
 ##############################################################################/
 
 #preparing the dataset
-temp<-CompRez[,c(1,2,4)]
+temp<-CompRez[,c(1,2,3)]
 temp<-spread(temp,Subs_Act,ED50)
 
 #distribution of the IC50 by Active Substance
-op<-par(mfrow=c(3,4))
-plot(temp[order(c(temp$CYPROCONAZOLE)),"CYPROCONAZOLE"],
-     main="CYPROCONAZOLE IC50",bg=cooloor[1],pch=21,cex=2,las=1,
+op<-par(mfrow=c(2,2))
+plot(temp[order(c(temp$BIXAFEN)),"BIXAFEN"],
+     main="BIXAFEN IC50",bg=cooloor[1],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
-     main="DIFENOCONAZOLE IC50",bg=cooloor[2],pch=21,cex=2,las=1,
+plot(temp[order(c(temp$BOSCALID)),"BOSCALID"],
+     main="BOSCALID IC50",bg=cooloor[2],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$EPOXICONAZOLE)),"EPOXICONAZOLE"],
-     main="EPOXICONAZOLE IC50",bg=cooloor[3],pch=21,cex=2,las=1,
+plot(temp[order(c(temp$FLUOPYRAM)),"FLUOPYRAM"],
+     main="FLUOPYRAM IC50",bg=cooloor[5],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$`FENTINE HYDROXYDE`)),"FENTINE HYDROXYDE"],
-     main="FENTINE HYDROXYDE IC50",bg=cooloor[4],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"],
-     main="FLUTRIAFOL IC50",bg=cooloor[5],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"],
-     main="MEFENTRIFLUCONAZOLE IC50",bg=cooloor[6],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"],
-     main="METCONAZOLE IC50",bg=cooloor[7],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"],
-     main="PROCHLORAZE IC50",bg=cooloor[8],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),"PROTHIOCONAZOLE-DESTHIO"],
-     main="PROTHIOCONAZOLE-DESTHIO IC50",bg=cooloor[9],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"],
-     main="TEBUCONAZOLE IC50",bg=cooloor[10],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"],
-     main="TETRACONAZOLE IC50",bg=cooloor[11],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$TOLNAFTATE)),"TOLNAFTATE"],
-     main="TOLNAFTATE IC50",bg=cooloor[12],pch=21,cex=2,las=1,
+plot(temp[order(c(temp$FLUXAPYROXAD)),"FLUXAPYROXAD"],
+     main="FLUXAPYROXAD IC50",bg=cooloor[3],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 par(op)
-#export to pdf 14 x 10 inches
-
-
+#export to pdf 10 x 8 inches
 
 
 ##############################################################################/

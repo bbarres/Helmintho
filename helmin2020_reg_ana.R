@@ -1,6 +1,6 @@
 ##############################################################################/
 ##############################################################################/
-#Analizing Helmintosporiose 2020 bioassay results from Arvalis field trial
+#Analyzing Helmintosporiose 2020 bioassay results from Arvalis field trial
 ##############################################################################/
 ##############################################################################/
 
@@ -28,7 +28,7 @@ CompRez<-data.frame(Subs_Act=factor(),sample_ID=factor(),
                     ED50=character(),SERR=character())
 
 #we make a subselection of the data according to the SA
-pdf(file="output/plot_ASA.pdf",width=7)
+pdf(file="output/plot_ASA2020.pdf",width=7)
 for (j in 1:length(SAlist)) {
   data_subSA<-datamyc[datamyc$pest_sa_id==SAlist[j],]
   data_subSA$ech_id<-drop.levels(data_subSA$ech_id)
@@ -79,7 +79,7 @@ CompRez$ED50<-as.character(CompRez$ED50)
 CompRez[CompRez$ED50==">30","ED50"]<-35
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
 
-pdf(file="output/histo_AllInd_ASA.pdf",width=60,height=8)
+pdf(file="output/histo_AllInd_ASA2020.pdf",width=60,height=8)
 op<-par(mfrow=c(1,1))
 par(mar=c(8,3,3,0.5))
 barplot(as.numeric(as.character(CompRez$ED50)),
@@ -94,7 +94,7 @@ dev.off()
 
 #histograms by samples
 samplelist<-as.character(names(table(CompRez$sample_ID)))
-pdf(file="output/histo_byInd_ASA.pdf",width=9,height=20)
+pdf(file="output/histo_byInd_ASA2020.pdf",width=9,height=20)
 op<-par(mfrow=c(8,5))
 for (i in (1:length(samplelist))) {
   temp<-merge(as.data.frame(levels(as.factor(CompRez$Subs_Act))),
@@ -137,7 +137,7 @@ pairs(log(temp[,c(2:5)]),las=1,main="Correlation between log(ActSubst)",
 
 
 ##############################################################################/
-#Analyzing the multisensitivity profil of the strains####
+#Analyzing the multisensitivity profile of the strains####
 ##############################################################################/
 
 #Clusterization based on scoring of 4 SA
@@ -173,8 +173,8 @@ temp<-spread(temp,Subs_Act,ED50)
 
 #distribution of the IC50 by Active Substance
 op<-par(mfrow=c(2,2))
-plot(temp[order(c(temp$BIXAFEN)),"BIXAFEN"],
-     main="BIXAFEN IC50",bg=cooloor[1],pch=21,cex=2,las=1,
+plot(temp[order(c(temp$BIXAFENE)),"BIXAFENE"],
+     main="BIXAFENE IC50",bg=cooloor[1],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$BOSCALID)),"BOSCALID"],
      main="BOSCALID IC50",bg=cooloor[2],pch=21,cex=2,las=1,
